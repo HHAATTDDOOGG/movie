@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Video with Typing Animation</title>
+    <style>
+        /* CSS Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .bg{
+            margin: 0;
+            padding: 0;
+            background-image: url('bg-01.svg');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+        }
+
+        .content {
+            position: absolute;
+            top: 40vh;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            -webkit-text-stroke-color: #000000;
+            -webkit-text-stroke-width: 0.3px;
+        }
+
+        #typing-text {
+            font-size: 2em;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid orange;
+            animation: typing 4s steps(40, end), blink-caret .75s step-end infinite;
+            /* Changing cursor to a block style */
+            cursor: block;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="content">
+        <h1 id="typing-text"></h1>
+    </div>
+    <script>
+        // JavaScript
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const text = "Hi my love, \nI would like to ask you on a movie date on Tuesday, June 18.\nWe'll watch Inside Out 2 at SM City Marilao. Hoping that this\nwill work for you. Let me know if you want to\nchange anything. I love you. ";
+            const lines = text.split('\n');
+            let lineIndex = 0;
+            let charIndex = 0;
+            const speed = 20; // Speed of typing in milliseconds
+
+            function typeWriter() {
+                if (lineIndex < lines.length) {
+                    const line = lines[lineIndex];
+                    if (charIndex < line.length) {
+                        document.getElementById("typing-text").innerHTML += line.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeWriter, speed);
+                    } else {
+                        document.getElementById("typing-text").innerHTML += '<br>'; // Add line break after typing the line
+                        charIndex = 0;
+                        lineIndex++;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+            }
+
+            typeWriter();
+        });
+    </script>
+</body>
+</html>
